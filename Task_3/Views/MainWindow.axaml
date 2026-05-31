@@ -3,18 +3,58 @@
         xmlns:vm="using:Task_3.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Task_3.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_3.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Task_3">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Window.DataTemplates>
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DataTemplate DataType="{x:Type vm:TasksViewModel}">
+            <views:TasksView/>
+        </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <Grid ColumnDefinitions="200, *">
+
+        <!-- Left menu -->
+        <Border Grid.Column="0"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                Padding="10">
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Menu"
+                           FontWeight="Bold"/>
+
+                <Button Content="Home"
+                        Command="{Binding ShowHomeCommand}"/>
+
+                <Button Content="Tasks"
+                        Command="{Binding ShowTasksCommand}"/>
+
+                <Button Content="Settings"
+                        Command="{Binding ShowSettingsCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Current screen -->
+        <Border Grid.Column="1"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                Padding="10">
+
+            <ContentControl Content="{Binding CurrentViewModel}"/>
+
+        </Border>
+    </Grid>
 </Window>
